@@ -1,0 +1,55 @@
+FROM debian
+
+MAINTAINER stanimirvelikov
+RUN apt-get update
+RUN apt-get -y install apt-utils
+RUN echo mysql-server-5.5 mysql-server/root_password password 20050363 | debconf-set-selections
+RUN echo mysql-server-5.5 mysql-server/root_password_again password 20050363 | debconf-set-selections
+
+
+RUN apt-get install -y ssmtp
+
+# get postfix
+RUN apt-get install -y postfix
+RUN service postfix stop
+#RUN apt-get install -y mailx 
+
+EXPOSE 3306/tcp
+
+RUN echo bacula-director-mysql bacula-director-mysql/dbconfig-install boolean false | debconf-set-selections 
+RUN echo bacula-director-mysql bacula-director-mysql/mysql/app-pass password 20050363 | debconf-set-selections
+RUN echo bacula-director-mysql bacula-director-mysql/mysql/admin-pass password 20050363 | debconf-set-selections
+#RUN echo bacula-director-mysql bacula-director-mysql/password-confirm password 20050363 | debconf-set-selections
+#RUN echo bacula-director-mysql bacula-director-mysql/app-password-confirm password 20050363 | debconf-set-selections
+
+
+RUN apt-get install bacula-director-mysql
+RUN apt-get install bacula-console
+RUN chmod 755 /etc/bacula/scripts/delete_catalog_backup
+RUN mkdir -p /bacula/backup /bacula/restore
+RUN chown -R bacula:bacula /bacula
+RUN chmod -R 700 /bacula
+
+ADD bacula-dir.conf /etc/bacula/bacula-dir.conf
+ADD bacula-sd.conf /etc/bacula/bacula-sd.conf
+
+ADD setup-mysql.sh /setup-mysql.sh
+RUN chmod +x /setup-mysql.sh
+ADD startbacula.sh /startbacula.sh
+RUN chmod +x /startbacula.sh
+
+# Add the wake on lan script
+#ADD wake-server.sh /wake-server.sh
+#RUN chmod +x wake-server.sh
+
+VOLUME /data
+VOLUME /etc/bacula
+VOLUME /var/spool/bacula
+
+# Setup Mysql Database
+#RUN /bin/bash -c /setup-mysql.sh
+
+EXPOSE 9101
+EXPOSE 25
+
+CMD ["/bin/bash", "-c",  "/startbacula.sh"]
