@@ -4,7 +4,8 @@ MAINTAINER stanimirvelikov
 #docker run -t -i ubuntu /bin/bash
 #debconf-get-selections | grep mysql #### pokazva vypros na programa pri instalaciq
 #docker run -d --name test -p 9101:9101 -p 9102:9102 -p 9103:9103 --env="DB_TYPE=sqlite3" stanimirvelikov/bacula
-
+ENV BACULA_VERSION "7.4.1"
+ENV BACULA_COMPONENTS "bacula-libs bacula-common bacula-libs-sql bacula-client bacula-director bacula-console"
 RUN apt-get update
 RUN apt-get -y install apt-utils
 
@@ -55,20 +56,26 @@ ADD bacula-fd.conf /etc/bacula/bacula-fd.conf
 ADD bacula-sd.conf /etc/bacula/bacula-sd.conf
 ADD bconsole.conf /etc/bacula/bconsole.conf
 
-RUN cd /etc/bacula && \
-./create_sqlite3_database && \
-./make_bacula_tables && \
-./grant_sqlite3_privileges
+#RUN cd /etc/bacula && \
+#./create_sqlite3_database && \
+#./make_bacula_tables && \
+#./grant_sqlite3_privileges
 
 
 VOLUME /data
 VOLUME /etc/bacula
 VOLUME /var/spool/bacula
+
+#Add Bacula to path so running 'docker exec -ti ... bconsole' works
 ENV PATH=$PATH:/etc/bacula
 
-EXPOSE 9101
-EXPOSE 9102
-EXPOSE 9103
-EXPOSE 25
-
-#docker run --name test -p 9101:9101 -p 9102:9102 -p 9103:9103 --env="DB_TYPE=sqlite3" -it stanimirvelikov/bacula bash
+ADD run.sh /tmp
+RUN chmod +x /tmp/run.sh
+#ENTRYPOINT ["/tmp/run.sh"]
+CMD ["/bin/bash", "-c",  "/tmp/run.sh"]
+EXPOSE 9101 9102 9103 25
+#EXPOSE 9102
+#EXPOSE 9103
+#EXPOSE 25
+#docker build -t stanimirvelikov/bacula /home/stanimir/bacula
+#docker run --name test -p 9101:9101 -p 9102:9102 -p 9103:9103 --env="DB_TYPE=sqlite3" -i stanimirvelikov/bacula bash
