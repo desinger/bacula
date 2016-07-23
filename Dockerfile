@@ -1,6 +1,5 @@
 FROM debian:jessie
 MAINTAINER stanimirvelikov
-
 #docker run -t -i ubuntu /bin/bash
 #debconf-get-selections | grep mysql #### pokazva vypros na programa pri instalaciq
 #ENV BACULA_VERSION "7.4.1"
@@ -34,7 +33,8 @@ RUN apt-get install -y ssmtp
 #RUN echo postfix postfix postfix postfix/mailname string s.velikov@bolero-bg.com | debconf-set-selections
 #RUN service postfix stop
 RUN apt-get install -y bsd-mailx 
-
+RUN echo "Europe/Sofia" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
 RUN mkdir -p /bacula/backup /bacula/restore
 
 RUN adduser --disabled-password --gecos "" bacula
