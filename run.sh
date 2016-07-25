@@ -2,13 +2,17 @@
 mkdir -p /bacula/backup /bacula/restore
 chown -R bacula:bacula /bacula
 chmod -R 700 /bacula
-#if sqlite3 /etc/bacula/bacula.db "SELECT EXISTS (SELECT * FROM PATH WHERE type='table' AND name='<tableName>')";then
-#    echo "=> Database already setup; skipping."
+
+RESULT=`mysqlshow --host=mysql --user=root --password=1 bacula| grep -v Wildcard | grep -o bacula`
+if [ "$RESULT" == "bacula" ]; then
+    echo "==>Database already created"
+else
+create_mysql_database --host=mysql --user=root --password=1
+make_mysql_tables --host=mysql --user=root --password=1
+grant_mysql_privileges --host=mysql --user=root --password=1
 echo "==> Creating database setup"
-    #/etc/bacula/create_sqlite3_database 
-    /etc/bacula/make_mysql_tables 
-    /etc/bacula/grant_mysql_privileges
-   
+fi
+
 # Now start both the FD and the DIR forcing them into the background while
 # still using -f. This way we can run both commands simultaniously in the
 # foreground.

@@ -1,5 +1,5 @@
 
-docker run --name test -p 9101:9101 -p 9102:9102 -p 9103:9103 -it --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
+docker run --name bacula -p 9101:9101 -p 9102:9102 -p 9103:9103 -it --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
 
 
 create_mysql_database --host=mysql --user=root --password=1

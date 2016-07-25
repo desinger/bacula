@@ -14,31 +14,28 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
 
 
 RUN apt-get update && \
-    apt-get -y install git && \
+    apt-get install git && \
     git clone http://git.bacula.org/bacula trunk && \         
     cd /trunk/bacula && \
-    apt-get -y install build-essential libgl1-mesa-dev mtx && \ #lib for ./configure on bacula source
+    apt-get install build-essential libgl1-mesa-dev mtx && \ #lib for ./configure on bacula source
 
     echo mysql-server-5.5 mysql-server/root_password password 1 | debconf-set-selections && \
     echo mysql-server-5.5 mysql-server/root_password_again password 1 | debconf-set-selections && \
 
-    apt-get -y install mysql-client libmysqlclient-dev && \ #used only se we can install bacule with mysql support , need to remove at the end
-    apt-get install -y make file && \
+    apt-get install mysql-client libmysqlclient-dev && \ #used only se we can install bacule with mysql support , need to remove at the end
+    apt-get install make file && \
     cd trunk/bacula && \
     ./configure \
 	--enable-smartalloc \
 	--enable-batch-insert \
 	--with-mysql && \
     make && make install && \
-
-    apt-get install -y ssmtp nano && \
-
+    apt-get remove mysql-client libmysqlclient-dev && \
+    apt-get install ssmtp nano && \
     mkdir -p /bacula/backup /bacula/restore
-#in sh ?
-RUN adduser --disabled-password --gecos "" bacula
-
-RUN chown -R bacula:bacula /bacula
-RUN chmod -R 700 /bacula
+    adduser --disabled-password --gecos "" bacula && \
+    chown -R bacula:bacula /bacula && \
+    chmod -R 700 /bacula
 
 
 #Add Bacula to path so running 'docker exec -ti ... bconsole' works
