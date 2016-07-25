@@ -13,32 +13,28 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
 
 
 
-RUN apt-get update
-RUN apt-get -y install git
-RUN git clone http://git.bacula.org/bacula trunk         
-RUN cd /trunk/bacula
-#RUN apt-get update
-RUN apt-get -y install build-essential libgl1-mesa-dev mtx #biblioteka za ./configure na bacula source
+RUN apt-get update && \
+    apt-get -y install git && \
+    git clone http://git.bacula.org/bacula trunk && \         
+    cd /trunk/bacula && \
+    apt-get -y install build-essential libgl1-mesa-dev mtx && \ #lib for ./configure on bacula source
 
-#RUN apt-get update
-#RUN apt-get -y install sqlite3 libsqlite3-dev
-RUN echo mysql-server-5.5 mysql-server/root_password password 1 | debconf-set-selections
-RUN echo mysql-server-5.5 mysql-server/root_password_again password 1 | debconf-set-selections
-#RUN apt-get update
-RUN apt-get -y install mysql-client libmysqlclient-dev #used only se we can install bacule with mysql support , need to remove at the end
-RUN apt-get install -y make file && \
-cd trunk/bacula && \
-./configure \
+    echo mysql-server-5.5 mysql-server/root_password password 1 | debconf-set-selections && \
+    echo mysql-server-5.5 mysql-server/root_password_again password 1 | debconf-set-selections && \
+
+    apt-get -y install mysql-client libmysqlclient-dev && \ #used only se we can install bacule with mysql support , need to remove at the end
+    apt-get install -y make file && \
+    cd trunk/bacula && \
+    ./configure \
 	--enable-smartalloc \
 	--enable-batch-insert \
 	--with-mysql && \
-make && make install
+    make && make install && \
 
+    apt-get install -y ssmtp nano && \
 
-RUN apt-get install -y ssmtp nano
-
-RUN mkdir -p /bacula/backup /bacula/restore
-
+    mkdir -p /bacula/backup /bacula/restore
+#in sh ?
 RUN adduser --disabled-password --gecos "" bacula
 
 RUN chown -R bacula:bacula /bacula

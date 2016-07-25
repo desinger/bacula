@@ -22,7 +22,7 @@ GRANT ALL ON *.* to root@'%' IDENTIFIED BY '1';
 
 
 ##
-docker run -it --name bweb -p 80:80 stanimirvelikov/bweb bash
+docker run -it --name bweb -p 80:80 --net=bru stanimirvelikov/bweb bash
 
 source /etc/apache2/envvars
 service apache2 start
