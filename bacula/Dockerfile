@@ -44,6 +44,8 @@ RUN chmod +x /tmp/run.sh
 EXPOSE 9101:9101
 EXPOSE 9102:9102
 EXPOSE 9103:9103
+VOLUME /etc/bacula/
+VOLUME /bacula
 CMD ["/bin/bash", "-c",  "/tmp/run.sh"]
 
 #docker build -t stanimirvelikov/bacula /home/stanimir/bacula

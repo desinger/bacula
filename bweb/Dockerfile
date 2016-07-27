@@ -22,13 +22,19 @@ RUn apt-get install baculum baculum-apache2
 
 RUN ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 RUn ln -s /etc/apache2/sites-available/baculum.conf /etc/apache2/sites-enabled/baculum.conf
+RUN apt-get install sudo nano
+ADD settings.conf /usr/share/baculum/htdocs/protected/Data/
 
-#RUN service apache2 restart
-#Access from web browser: http://localhost:9095
+RUN echo Defaults:www-data	!requiretty >> /etc/sudoers
+RUN echo www-data	ALL= NOPASSWD:	/usr/sbin/bconsole >> /etc/sudoers
+RUN echo www-data	ALL= NOPASSWD:	/etc/bacula/bconsole >> /etc/sudoers
+ADD libs/ /tmp/lib
+ADD run.sh /tmp
+RUN chmod +x /tmp/run.sh
+VOLUME /etc/bacula/
+VOLUME /bacula/
+CMD ["/bin/bash", "-c",  "/tmp/run.sh"]
 
-#First time login: admin
-
-#First time password: admin
 
  
 

@@ -10,7 +10,7 @@ services:
   volumes:
    - /home/mysql:/var/lib/mysql
   environment:
-   TZ: Europe/London
+   TZ: Europe/Sofia
   tty: true  
 
  bacula-dir:
@@ -30,20 +30,29 @@ services:
    DB_HOST: mysql
    DB_USER: root
    DB_PASS: 1
-   TZ: Europe/London
+   TZ: Europe/Sofia
 #  tty: true
   volumes:
+   - /bacula:/bacula
    - /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf 
    - /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf 
    - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
+   - /bacula/
+   - /etc/bacula/
    
  bacula-web:
-  image: stanimirvelikov/bweb
-  container_name: bweb
+  image: stanimirvelikov/bweb2
+  container_name: bweb2
   hostname: bweb
   network_mode: "bru"
   ports: 
    - "80:80"
+   - "9095:9095"
+  volumes:
+  - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
+  - /bacula/
+  - /etc/bacula/
   environment:
-   TZ: Europe/London
-
+   TZ: Europe/Sofia
+  tty: true
+   
