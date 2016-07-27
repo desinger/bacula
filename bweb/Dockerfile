@@ -11,29 +11,26 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf.d/01usersetting && \
     echo 'APT::Get::force-yes "true";' >> /etc/apt/apt.conf.d/01usersetting
 
+RUN echo deb http://bacula.org/downloads/baculum/debian jessie main >> /etc/apt/sources.list && \
+echo deb-src http://bacula.org/downloads/baculum/debian jessie main >> /etc/apt/sources.list
 
-RUN apt-get update
-#    apt-get install -y apache2 libapache2-mod-php5 && \
-    apt-get install -y php5 php5-gd php5-mysql && \
-    apt-get -y install curl && \
-    cd /var/www/ && \
-    curl -O http://www.bacula-web.org/files/bacula-web.org/downloads/bacula-web-latest.tgz && \
-    tar -xzf bacula-web-latest.tgz -C /var/www/html && \
-    adduser --disabled-password --gecos "" apache && \
-    chown -Rv apache:apache /var/www && \
-    chown -Rv www-data: /var/www/ && \
-    chmod -Rv u=rx,g=rx,o=rx /var/www/ && \
-    chmod -Rv ug+w /var/www/html/application/view/cache && \
-    rm /var/www/html/index.html && \
-    mkdir /var/www/html/configs
+
+RUN apt-get update && \
+apt-get install wget 
+RUN wget -qO - http://bacula.org/downloads/baculum/baculum.pub | apt-key add -
+RUn apt-get install baculum baculum-apache2 
+
+RUN ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+RUn ln -s /etc/apache2/sites-available/baculum.conf /etc/apache2/sites-enabled/baculum.conf
+
+#RUN service apache2 restart
+#Access from web browser: http://localhost:9095
+
+#First time login: admin
+
+#First time password: admin
+
  
-ADD config.php /var/www/html/application/config
-ADD bacula.conf /var/www/html/configs/
-#nano /etc/apache2/apache2.conf 
-#put this inside conf file
-#
-#RUN echo "<Directory /var/www/html/>  /
-# AllowOverride All  /
-#</Directory>" >> /etc/apache2/apache2.conf
+
 
 

@@ -1,0 +1,49 @@
+version: '2'
+services:
+ bacula-db:
+  image: stanimirvelikov/mysql
+  container_name: mysql
+  hostname: mysql
+  ports:
+   - "3306:3306" 
+  network_mode: "bru"
+  volumes:
+   - /home/mysql:/var/lib/mysql
+  environment:
+   TZ: Europe/London
+  tty: true  
+
+ bacula-dir:
+   #build:
+    #depends_on: .
+    # - bacula-db
+  image: stanimirvelikov/bacula
+  container_name: bacula
+  hostname: bacula
+  ports:
+   - "9101:9101" # bconsole -> dir
+   - "9102:9102" # dir -> fd
+   - "9103:9103" # dir ->sd
+  network_mode: "bru"
+  environment:
+   DB_NAME: bacula
+   DB_HOST: mysql
+   DB_USER: root
+   DB_PASS: 1
+   TZ: Europe/London
+#  tty: true
+  volumes:
+   - /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf 
+   - /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf 
+   - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
+   
+ bacula-web:
+  image: stanimirvelikov/bweb
+  container_name: bweb
+  hostname: bweb
+  network_mode: "bru"
+  ports: 
+   - "80:80"
+  environment:
+   TZ: Europe/London
+

@@ -1,10 +1,15 @@
-mysqld --initialize-insecure #init mysql with root user no password
 
+#RESULT=`mysqlshow --host=mysql --user=root --password=1 bacula| grep -v Wildcard | grep -o bacula`
+#if [ "$RESULT" == "bacula" ]; then
+#    echo "==>Database already created"
+#else
+mysqld --initialize-insecure
 service mysql start
 
-mysql -u root --skip-password #login root user
+mysql -u root --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '1' ;" -e "GRANT ALL ON *.* to root@'%' IDENTIFIED BY '1';"
+/bin/bash
+echo "==> Creating database setup"
+#fi
 
-ALTER USER 'root'@'localhost' IDENTIFIED BY '1'; #change root user password with "1"
-
-GRANT ALL ON *.* to root@'%' IDENTIFIED BY '1'; #grand privileges to user to acces databases
+service mysql start && /bin/bash
 

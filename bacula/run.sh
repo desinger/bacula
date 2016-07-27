@@ -1,3 +1,16 @@
+echo "Waiting for mysql"
+until mysql -h"mysql" -P"3306" -uroot -p"1" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+echo -e "\nmysql ready"
+
+#: ${DB_USER:="root"}
+#: ${DB_HOST:="mysql"}
+#: ${DB_NAME:="bacula"}
+#: ${DB_PASS:="1"}
 
 mkdir -p /bacula/backup /bacula/restore
 chown -R bacula:bacula /bacula
@@ -13,18 +26,12 @@ grant_mysql_privileges --host=mysql --user=root --password=1
 echo "==> Creating database setup"
 fi
 
-# Now start both the FD and the DIR forcing them into the background while
-# still using -f. This way we can run both commands simultaniously in the
-# foreground.
-#echo "==> Starting Bacula FD"
-#/opt/bacula/bin/bacula-fd -c /opt/bacula/etc/bacula-fd.conf -d ${BACULA_DEBUG} -f &
+echo "==> Starting Bacula SD"
+bacula-sd -c /etc/bacula/bacula-sd.conf &
+echo "==> Bacula SD is started"
+echo "==> Starting Bacula DIR" 
+bacula-dir -c /etc/bacula/bacula-dir.conf -d 50 -f # -d /debug level/
 
-echo "==> Starting Bacula DIR"
-bacula-sd -c /etc/bacula/bacula-sd.conf 
-bacula-fd -c /etc/bacula/bacula-fd.conf 
-bacula-dir -f -c /etc/bacula/bacula-dir.conf 
-#bacula start
+#echo "==> Bacula DIR is started"
 #bconsole
-
-echo "==> Bacula DIR is started"
 

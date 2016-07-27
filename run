@@ -1,28 +1,11 @@
 
-docker run --name bacula -p 9101:9101 -p 9102:9102 -p 9103:9103 -it --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
-
-
-create_mysql_database --host=mysql --user=root --password=1
-make_mysql_tables --host=mysql --user=root --password=1
-grant_mysql_privileges --host=mysql --user=root --password=1
+docker run --name bacula -p 9101:9101 -p 9102:9102 -p 9103:9103 -it -e TZ=Europe/London --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
 
 ##
-mkdir /home/mysql
-chmod -R 777 /home/mysql/
 
-docker run -it --name mysql -v /home/mysql:/var/lib/mysql --net=bru -p 3306:3306 -d mysql bash
+docker run -it --name mysql -v /home/mysql:/var/lib/mysql -e TZ=Europe/London --net=bru -p 3306:3306 -d mysql bash
 docker exec -it mysql bash
-mysqld --initialize-insecure 
-service mysql start
-mysql -u root --skip-password
-
-
-ALTER USER 'root'@'localhost' IDENTIFIED BY '1';
-GRANT ALL ON *.* to root@'%' IDENTIFIED BY '1';
-
 
 ##
-docker run -it --name bweb -p 80:80 --net=bru stanimirvelikov/bweb bash
+docker run -it --name bweb -p 80:80 -e TZ=Europe/London --net=bru stanimirvelikov/bweb bash
 
-source /etc/apache2/envvars
-service apache2 start
