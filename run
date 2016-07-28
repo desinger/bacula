@@ -1,11 +1,11 @@
 
-docker run --name bacula -p 9101:9101 -p 9102:9102 -p 9103:9103 -it -e TZ=Europe/London --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
+docker run --name bacula -p 9101:9101 -p 9102:9102 -p 9103:9103 -it -e TZ=Europe/Sofia --net=bru -v /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf -v /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf -v /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf -v /etc/bacula/bacula-fd.conf:/etc/bacula/bacula-fd.conf stanimirvelikov/bacula bash
 
 ##
 
-docker run -it --name mysql -v /home/mysql:/var/lib/mysql -e TZ=Europe/London --net=bru -p 3306:3306 -d mysql bash
+docker run -it --name mysql -v /home/mysql:/var/lib/mysql -e TZ=Europe/Sofia --net=bru -p 3306:3306 -d mysql bash
 docker exec -it mysql bash
 
 ##
-docker run -it --name bweb -p 80:80 -e TZ=Europe/London --net=bru stanimirvelikov/bweb bash
+docker run -it --name bweb -p 80:80 -e TZ=Europe/Sofia --net=bru stanimirvelikov/bweb bash
 

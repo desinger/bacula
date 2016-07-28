@@ -14,9 +14,6 @@ services:
   tty: true  
 
  bacula-dir:
-   #build:
-    #depends_on: .
-    # - bacula-db
   image: stanimirvelikov/bacula
   container_name: bacula
   hostname: bacula
@@ -31,7 +28,6 @@ services:
    DB_USER: root
    DB_PASS: 1
    TZ: Europe/Sofia
-#  tty: true
   volumes:
    - /bacula:/bacula
    - /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf 
@@ -41,8 +37,8 @@ services:
    - /etc/bacula/
    
  bacula-web:
-  image: stanimirvelikov/bweb2
-  container_name: bweb2
+  image: stanimirvelikov/bweb
+  container_name: bweb
   hostname: bweb
   network_mode: "bru"
   ports: 
