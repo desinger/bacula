@@ -14,7 +14,7 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     echo mysql-server-5.5 mysql-server/root_password_again password 1 | debconf-set-selections && \
 #
     apt-get update && \
-    apt-get install  git make file mysql-client libmysqlclient-dev build-essential sendemail nano && \
+    apt-get install  git make file mysql-client libmysqlclient-dev build-essential ssmtp nano && \
     git clone http://git.bacula.org/bacula trunk && \
     mkdir -p /bacula/backup /bacula/restore /etc/bacula/plugins && \
     adduser --disabled-password --gecos "" bacula && \
