@@ -32,7 +32,11 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
 #Add Bacula to path so running 'docker exec -ti ... bconsole' works
 ENV PATH=$PATH:/etc/bacula
 ADD run.sh /tmp
-RUN chmod +x /tmp/run.sh
+#RUN chmod +x /tmp/run.sh
+
+RUN chmod 777 /tmp/run.sh  \
+    && sed -i -e 's/\r$//' /tmp/run.sh
+
 EXPOSE 9101:9101 9102:9102 9103:9103
 VOLUME /etc/bacula/
 VOLUME /bacula

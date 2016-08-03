@@ -1,6 +1,6 @@
 version: '2'
 services:
- bacula-db:
+ mysql:
   image: stanimirvelikov/mysql
   container_name: mysql
   hostname: mysql
@@ -11,13 +11,13 @@ services:
    - /home/mysql:/var/lib/mysql
   environment:
    TZ: Europe/Sofia
-   MYSQL_ROOT_PASSWORD: 1
+  # MYSQL_ROOT_PASSWORD: 1
   tty: true  
   env_file:
    - /home/definitions.env
 
 
- bacula-dir:
+ bacula:
   image: stanimirvelikov/bacula
   container_name: bacula
   hostname: bacula
@@ -78,5 +78,5 @@ services:
    SMTP_INTERVAL: "1m"
    SMTP_PROCESSING: "queue_only_load_latch"
    SMTP_remote_max_parallel: "2"
-   SMTP_queue_run_max: "3"
+   SMTP_queue_run_max: "5"
    SMTP_timeout_frozen_after: "3h"

@@ -5,20 +5,23 @@ do
   sleep 1
 done
 #bacula-dir
-sed -i -e "s/^.*BS_PASS/$BS_PASS/" /etc/bacula/bacula-dir.conf
+sed -i -e "s/^.*BS_PASS/$BS_PASS/" /etc/bacuka/bacula-dir.conf
 sed -i -e "s/^.*DB_NAME/$DB_NAME/" /etc/bacula/bacula-dir.conf
 sed -i -e "s/^.*DB_USER/$DB_USER/" /etc/bacula/bacula-dir.conf
 sed -i -e "s/^.*DB_PASS/$DB_PASS/" /etc/bacula/bacula-dir.conf
 sed -i -e "s/^.*DB_HOST/$DB_HOST/" /etc/bacula/bacula-dir.conf
 sed -i -e "s/^.*BMON_PASS/$BMON_PASS/" /etc/bacula/bacula-dir.conf
 sed -i -e "s/^.*MAIL_ON_ERROR/$MAIL_ON_ERROR/" /etc/bacula/bacula-dir.conf
+sed -i -e "s/^.*CLI_PASS/$CLI_PASS/" /etc/bacula/bacula-dir.conf
+sed -i -e "s/^.*DIR_PASS/$DIR_PASS/" /etc/bacula/bacula-dir.conf
+sed -i -e "s/^.*DIR_PASS/$DIR_PASS/" /etc/bacula/bacula-sd.conf
 
 
 echo -e "\nmysql ready"
 
 mkdir -p /bacula/backup /bacula/restore
 chown -R bacula:bacula /bacula
-chmod -R 700 /bacula
+sed: cannot renamechmod -R 700 /bacula
 sed -i -e "s/^.*mailhub=.*$/mailhub=$SMTP_SERVER/" /etc/ssmtp/ssmtp.conf
 sed -i -e "s/^.*/$DOMAINNAME/" /etc/mailname
 RESULT=`mysqlshow --host=$DB_HOST --user=$DB_USER --password=$DB_PASS bacula| grep -v Wildcard | grep -o bacula`
