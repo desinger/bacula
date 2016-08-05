@@ -13,7 +13,7 @@ services:
    - /home/definitions.env
 
  bacula:
-  build: bacula
+  build: /home/stanimir/dockers/bacula
   container_name: bacula
   hostname: bacula
   ports:
@@ -30,7 +30,9 @@ services:
    - /etc/bacula/
   env_file:
    - /home/definitions.env
-       
+  depends_on: 
+  - mysql     
+
  bacula-web:
   build: bweb
   container_name: bweb
@@ -46,6 +48,8 @@ services:
   tty: true
   env_file:
    - /home/definitions.env
+  depends_on:
+   - mysql
 
  smtp:
   image: vipconsult/smtp
@@ -56,12 +60,3 @@ services:
    - "25:25"
   env_file:
    - /home/definitions.env
-  environment:
-   TZ: Europe/Sofia  
-   ENV_SMTP_INTERVAL: "10"
-   SMTP_SERVER: "compose_smtp_1"
-   SMTP_INTERVAL: "1m"
-   SMTP_PROCESSING: "queue_only_load_latch"
-   SMTP_remote_max_parallel: "2"
-   SMTP_queue_run_max: "5"
-   SMTP_timeout_frozen_after: "3h"
