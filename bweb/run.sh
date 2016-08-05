@@ -2,6 +2,8 @@ cp -R /tmp/lib/ /usr/
 chown www-data:www-data /usr/share/baculum/htdocs/protected/Data/settings.conf
 chmod 700 /usr/share/baculum/htdocs/protected/Data/settings.conf
 
+sed -i '/Global/a ServerName www.bacula.com:9095' /etc/apache2/apache2.conf 
+
 sed -i "s/"DB_NAME"/"$DB_NAME"/" /usr/share/baculum/htdocs/protected/Data/settings.conf
 sed -i "s/"DB_USER"/"$DB_USER"/" /usr/share/baculum/htdocs/protected/Data/settings.conf
 sed -i "s/"DB_PASS"/"$DB_PASS"/" /usr/share/baculum/htdocs/protected/Data/settings.conf

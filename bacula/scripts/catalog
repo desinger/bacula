@@ -1,0 +1,5 @@
+echo user= "${DB_USER}"
+echo dbname = "${DB_NAME}"
+echo password="\"${DB_PASS}"\"
+echo DB Address = "${DB_HOST}"
+

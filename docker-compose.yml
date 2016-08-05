@@ -1,7 +1,7 @@
 version: '2'
 services:
  mysql:
-  image: stanimirvelikov/mysql
+  image: mysql:5.7.14
   container_name: mysql
   hostname: mysql
   ports:
@@ -11,8 +11,6 @@ services:
    - /home/mysql:/var/lib/mysql
   environment:
    TZ: Europe/Sofia
-  # MYSQL_ROOT_PASSWORD: 1
-  tty: true  
   env_file:
    - /home/definitions.env
 
@@ -27,10 +25,10 @@ services:
    - "9103:9103" # dir ->sd
   network_mode: "bru"
   environment:
-   DB_NAME: bacula
-   DB_HOST: mysql
-   DB_USER: root
-   DB_PASS: 1
+  # DB_NAME: bacula
+  # DB_HOST: mysql
+  # DB_USER: root
+  # DB_PASS: 1
    TZ: Europe/Sofia
    SMTP_SERVER: smtp
   volumes:
@@ -43,8 +41,7 @@ services:
    - /home/stanimir/
   env_file:
    - /home/definitions.env
-
-   
+       
  bacula-web:
   image: stanimirvelikov/bweb
   container_name: bweb

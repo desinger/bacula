@@ -1,0 +1,2 @@
+echo Password = "\"${BS_PASS}"\"
+echo Address = "${BS_ADDR}"

@@ -4,7 +4,7 @@ then
 else
   echo "DATABASE DOES NOT EXIST"
 mysqld --initialize-insecure
-service mysql start
+service mysqld start
 mysql -u root --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '1' ;" -e "GRANT ALL ON *.* to root@'%' IDENTIFIED BY '1';"
 /bin/bash
 echo "==> Creating database setup"

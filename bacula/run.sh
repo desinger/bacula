@@ -4,22 +4,6 @@ do
   printf "."
   sleep 1
 done
-#bacula-dir
-cp /etc/bacula/bacula-dir.conf /tmp/
-cp /etc/bacula/bacula-sd.conf /tmp/
-sed -i -e "s/BS_PASS/$BS_PASS/" /tmp/bacula-dir.conf
-sed -i -e "s/DB_NAME/$DB_NAME/" /tmp/bacula-dir.conf
-sed -i -e "s/DB_USER/$DB_USER/" /tmp/bacula-dir.conf
-sed -i -e "s/DB_PASS/$DB_PASS/" /tmp/bacula-dir.conf
-sed -i -e "s/DB_HOST/$DB_HOST/" /tmp/bacula-dir.conf
-sed -i -e "s/BMON_PASS/$BMON_PASS/" /tmp/bacula-dir.conf
-sed -i -e "s/MAIL_ON_ERROR/$MAIL_ON_ERROR/" /tmp/bacula-dir.conf
-sed -i -e "s/CLI_PASS/$CLI_PASS/" /tmp/bacula-dir.conf
-sed -i -e "s/DIR_PASS/$DIR_PASS/" /tmp/bacula-dir.conf
-sed -i -e "s/DIR_PASS/$DIR_PASS/" /tmp/bacula-sd.conf
-
-cp /tmp/bacula-dir.conf /etc/bacula/
-cp /tmp/bacula-sd.conf /etc/bacula/
 
 echo -e "\nmysql ready"
 
@@ -45,7 +29,4 @@ echo "==> Starting Bacula DIR"
 bacula-dir -c /etc/bacula/bacula-dir.conf -d 50 -f # -d /debug level/
 
 #echo "==> Bacula DIR is started"
-#bconsole
-
-
 
