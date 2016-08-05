@@ -26,7 +26,8 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     apt-get autoremove && \
     apt-get clean      
 
-ADD settings.conf /usr/share/baculum/htdocs/protected/Data/
+#ADD settings.conf /usr/share/baculum/htdocs/protected/Data/
+ADD settings.conf /etc/baculum/Data-apache/
 ADD libs/ /tmp/lib
 ADD run.sh /tmp
 RUN chmod +x /tmp/run.sh
