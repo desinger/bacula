@@ -26,7 +26,7 @@ echo "==> Starting Bacula SD"
 bacula-sd -c /etc/bacula/bacula-sd.conf &
 echo "==> Bacula SD is started"
 echo "==> Starting Bacula DIR" 
-bacula-dir -c /etc/bacula/bacula-dir.conf -d 200 -f # -d /debug level/
+bacula-dir -c /etc/bacula/bacula-dir.conf -d 500 -f # -d /debug level/
 
 echo "==> Bacula DIR is started"
 
