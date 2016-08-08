@@ -1,1 +1,2 @@
-echo mail on error = "${MAIL_ON_ERROR}" = error , fatal ,notsaved
+echo mail on error = "\"${MAIL_ON_ERROR}"\" = error , fatal ,notsaved
+

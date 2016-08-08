@@ -1,2 +1,4 @@
 echo Password = "\"${CLI_PASS}"\"
 echo Address = "${CLI_ADDR2}"
+echo Name = "${CLI_NAME2}"
+

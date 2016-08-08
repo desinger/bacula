@@ -13,7 +13,7 @@ services:
    - /home/definitions.env
 
  bacula:
-  build: /home/stanimir/dockers/bacula
+  build: bacula
   container_name: bacula
   hostname: bacula
   ports:
