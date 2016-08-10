@@ -14,7 +14,7 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     echo mysql-server-5.5 mysql-server/root_password_again password 1 | debconf-set-selections && \
 #
     apt-get update && \
-    apt-get install  git make file mysql-client libmysqlclient-dev build-essential ssmtp nano && \
+    apt-get install  git make file mysql-client libmysqlclient-dev build-essential nano && \
     git clone http://git.bacula.org/bacula trunk && \
     mkdir -p /bacula/backup /bacula/restore /etc/bacula/plugins && \
     adduser --disabled-password --gecos "" bacula && \
@@ -29,24 +29,11 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     apt-get purge git make file build-essential && \
     apt-get autoremove
 
-#Add Bacula to path so running 'docker exec -ti ... bconsole' works
-ENV PATH=$PATH:/etc/bacula
 ADD run.sh /tmp  
-ADD ./scripts/* /tmp/
-#ADD ./scripts/director /tmp && \
-## ./scripts/storage /tmp && \
-# ./scripts/catalog /tmp && \
-# ./scripts/monitor /tmp && \
-# ./scripts/client1 /tmp && \
-# ./scripts/client2 /tmp && \
-# ./scripts/mail /tmp
-
+#ADD ./scripts/* /tmp/
 
 RUN chmod o+x /tmp/run.sh  \
     && sed -i -e 's/\r$//' /tmp/run.sh
 
-EXPOSE 9101:9101 9102:9102 9103:9103
-VOLUME /etc/bacula/
-VOLUME /bacula
 CMD ["/bin/bash", "-c",  "/tmp/run.sh"]
 

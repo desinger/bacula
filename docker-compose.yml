@@ -10,7 +10,7 @@ services:
   volumes:
    - /home/mysql:/var/lib/mysql
   env_file:
-   - /home/definitions.env
+   - ./definitions.env
 
  bacula:
   build: bacula
@@ -26,30 +26,29 @@ services:
    - /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf 
    - /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf 
    - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
-   - /bacula/:/bacula
-   - /etc/bacula/
+   - /etc/bacula:/etc/bacula
   env_file:
-   - /home/definitions.env
+   - ./definitions.env
   depends_on: 
   - mysql     
 
- bacula-web:
+ bweb:
   build: bweb
   container_name: bweb
   hostname: bweb
   network_mode: "bru"
   ports: 
-   - "80:80"
    - "9095:9095"
   volumes:
   - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
   - /bacula:/bacula
   - /etc/bacula/
-  tty: true
   env_file:
-   - /home/definitions.env
+   - ./definitions.env
   depends_on:
    - mysql
+#  entrypoint: bash
+#  command: -c "ping google.com"
 
  smtp:
   image: vipconsult/smtp
@@ -59,4 +58,4 @@ services:
   ports: 
    - "25:25"
   env_file:
-   - /home/definitions.env
+   - ./definitions.env

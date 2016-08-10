@@ -7,7 +7,7 @@ chmod 700 /etc/baculum/Data-apache/settings.conf
 
 
 
-sed -i '/Global/a ServerName www.bacula.com:9095' /etc/apache2/apache2.conf 
+sed -i '/Global/a ServerName www.bacula.com:80' /etc/apache2/apache2.conf 
 
 sed -i "s/"DB_NAME"/"$DB_NAME"/" /usr/share/baculum/htdocs/protected/Data/settings.conf
 sed -i "s/"DB_USER"/"$DB_USER"/" /usr/share/baculum/htdocs/protected/Data/settings.conf
@@ -20,6 +20,7 @@ sed -i "s/"BWEB_PASS"/"$BWEB_PASS"/" /usr/share/baculum/htdocs/protected/Data/se
 cp -rf /usr/share/baculum/htdocs/protected/Data/settings.conf /etc/baculum/Data-apache/settings.conf
 
 
-service apache2 start
-bash
+#service apache2 start
+#bash
 
+/usr/sbin/apachectl  -f /etc/apache2/apache2.conf -DFOREGROUND
