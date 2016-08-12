@@ -1,1 +1,0 @@
-echo MailOnError = "\"${MAIL_ON_ERROR}"\" = error , fatal ,notsaved

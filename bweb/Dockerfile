@@ -25,7 +25,7 @@ RUN echo 'APT::NeverAutoRemove "0";' >> /etc/apt/apt.conf.d/01usersetting && \
     apt-get purge wget && \
     apt-get autoremove && \
     apt-get clean      
-
+ADD bconsole.conf /tmp/
 ADD settings.conf /etc/baculum/Data-apache/
 ADD libs/ /tmp/lib
 ADD run.sh /tmp

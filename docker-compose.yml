@@ -6,7 +6,6 @@ services:
   hostname: mysql
   ports:
    - "3306:3306" 
-#  network_mode: "bru"
   volumes:
    - /home/mysql:/var/lib/mysql
   env_file:
@@ -20,10 +19,9 @@ services:
    - "9101:9101" # bconsole -> dir
    - "9102:9102" # dir -> fd
    - "9103:9103" # dir ->sd
-#  network_mode: "bru"
   volumes:
    - /bacula:/bacula
-   - /etc/bacula
+   - /etc/bacula:/etc/bacula
   env_file:
    - ./definitions.env
   depends_on: 
@@ -33,13 +31,11 @@ services:
   build: bweb
   container_name: bweb
   hostname: bweb
-#  network_mode: "bru"
   ports: 
-   - "9095:9095"
+   - "80:9095"
   volumes:
-#  - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
   - /bacula:/bacula
-  - /etc/bacula/
+  - /etc/bacula/:/etc/bacula
   env_file:
    - ./definitions.env
   depends_on:
@@ -49,7 +45,6 @@ services:
   image: vipconsult/smtp
   container_name: smtp
   hostname: smtp
-#  network_mode: "bru"
   ports: 
    - "25:25"
   env_file:

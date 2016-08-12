@@ -10,9 +10,6 @@ echo -e "\nmysql ready"
 mkdir -p /bacula/backup /bacula/restore
 chown -R bacula:bacula /bacula
 chmod -R 700 /bacula
-#edit bacula-dir.conf
-#cp /etc/bacula/bacula-dir.conf /tmp
-#cp /etc/bacula/bacula-sd.conf /tmp
 sed -i -e "s/BS_PASS/$BS_PASS/" /tmp/bacula-dir.conf
 sed -i -e "s/DB_NAME/$DB_NAME/" /tmp/bacula-dir.conf
 sed -i -e "s/DB_USER/$DB_USER/" /tmp/bacula-dir.conf
@@ -32,8 +29,6 @@ sed -i -e "s/DIR_PASS/$DIR_PASS/" /tmp/bconsole.conf
 cp /tmp/bacula-dir.conf /etc/bacula
 cp /tmp/bacula-sd.conf /etc/bacula
 cp /tmp/bconsole.conf /etc/bacula
-#ssmtp ako se mahne ne trqbva toq red
-#sed -i -e "s/^.*/$DOMAINNAME/" /etc/mailname
 RESULT=`mysqlshow --host=$DB_HOST --user=$DB_USER --password=$DB_PASS bacula| grep -v Wildcard | grep -o bacula`
 if [ "$RESULT" == "bacula" ]; then
     echo "==>Database already created"

@@ -1,2 +1,0 @@
-echo Password = "\"${DIR_PASS}"\"
-echo Name="${DIR_NAME}"
