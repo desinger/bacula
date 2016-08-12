@@ -23,9 +23,6 @@ services:
 #  network_mode: "bru"
   volumes:
    - /bacula:/bacula
-#   - /etc/bacula/bacula-dir.conf:/etc/bacula/bacula-dir.conf 
-#   - /etc/bacula/bacula-sd.conf:/etc/bacula/bacula-sd.conf 
-#   - /etc/bacula/bconsole.conf:/etc/bacula/bconsole.conf
    - /etc/bacula
   env_file:
    - ./definitions.env
@@ -47,8 +44,6 @@ services:
    - ./definitions.env
   depends_on:
    - mysql
-#  entrypoint: bash
-#  command: -c "ping google.com"
 
  smtp:
   image: vipconsult/smtp
